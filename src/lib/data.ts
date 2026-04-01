@@ -1,7 +1,14 @@
-export type ProjectStatus = 'green' | 'yellow' | 'red'
+export type ProjectStatus = 'green' | 'yellow' | 'red' | 'blue'
 export type TaskStatus = 'todo' | 'in-progress' | 'done' | 'blocked'
 export type IdeaStatus = 'inbox' | 'reviewed' | 'converted'
 export type Assignee = 'Luke' | 'Yannick' | 'Mike' | 'Max' | 'Phil'
+
+export interface Milestone {
+  id: string
+  label: string
+  date: string
+  done: boolean
+}
 
 export interface Project {
   slug: string
@@ -10,6 +17,9 @@ export interface Project {
   status: ProjectStatus
   description: string
   liveUrl: string
+  startDate?: string
+  keyContact?: string
+  milestones?: Milestone[]
 }
 
 export interface Task {
@@ -98,6 +108,21 @@ export const PROJECTS: Project[] = [
     status: 'yellow',
     description: 'Youth golf nonprofit',
     liveUrl: 'https://rypfoundation.org',
+  },
+  {
+    slug: 'builders-challenge',
+    name: 'Builders Challenge',
+    emoji: '🏗️',
+    status: 'blue',
+    description: 'Solomon Hughes Builders Challenge — youth golf program through the RYP Foundation',
+    liveUrl: 'https://rypfoundation.org',
+    startDate: '2026-05-01',
+    keyContact: 'Jaycee Rhodes',
+    milestones: [
+      { id: '1', label: 'Program Kickoff', date: '2026-05-01', done: false },
+      { id: '2', label: 'Participant Recruitment', date: '2026-04-15', done: false },
+      { id: '3', label: 'Sponsor Outreach Complete', date: '2026-04-22', done: false },
+    ],
   },
 ]
 

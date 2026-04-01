@@ -5,13 +5,14 @@ import { PROJECTS } from '@/lib/data'
 import type { ProjectStatus } from '@/lib/data'
 import { useTasks } from '@/lib/store'
 import { Card, CardContent } from '@/components/ui/card'
-import { ExternalLink } from 'lucide-react'
+import { ExternalLink, Calendar, User } from 'lucide-react'
 
 function StatusBadge({ status }: { status: ProjectStatus }) {
   const config = {
     green: { label: 'On Track', className: 'bg-green-500/15 text-green-400 border-green-500/30' },
     yellow: { label: 'In Progress', className: 'bg-yellow-500/15 text-yellow-400 border-yellow-500/30' },
     red: { label: 'Needs Attention', className: 'bg-red-500/15 text-red-400 border-red-500/30' },
+    blue: { label: 'Planning', className: 'bg-blue-500/15 text-blue-400 border-blue-500/30' },
   }
   const { label, className } = config[status]
   return (
@@ -19,6 +20,14 @@ function StatusBadge({ status }: { status: ProjectStatus }) {
       {label}
     </span>
   )
+}
+
+function formatDate(dateStr: string) {
+  return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })
 }
 
 export default function ProjectsPage() {
@@ -46,7 +55,23 @@ export default function ProjectsPage() {
                     <StatusBadge status={project.status} />
                   </div>
                   <h3 className="font-bold text-base text-foreground mb-1">{project.name}</h3>
-                  <p className="text-sm text-muted-foreground mb-4">{project.description}</p>
+                  <p className="text-sm text-muted-foreground mb-3">{project.description}</p>
+                  {(project.startDate || project.keyContact) && (
+                    <div className="space-y-1 mb-3">
+                      {project.startDate && (
+                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                          <Calendar size={11} className="text-blue-400 flex-shrink-0" />
+                          <span>Starts {formatDate(project.startDate)}</span>
+                        </div>
+                      )}
+                      {project.keyContact && (
+                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                          <User size={11} className="text-blue-400 flex-shrink-0" />
+                          <span>{project.keyContact}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                   <div className="flex items-center justify-between">
                     <div className="text-xs text-muted-foreground">
                       {openTasks > 0

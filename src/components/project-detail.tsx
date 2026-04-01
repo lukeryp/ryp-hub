@@ -9,7 +9,7 @@ import { useTasks } from '@/lib/store'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { ExternalLink, Plus, ArrowLeft, Trash2 } from 'lucide-react'
+import { ExternalLink, Plus, ArrowLeft, Trash2, Calendar, User, CheckCircle2, Circle } from 'lucide-react'
 
 function TaskStatusBadge({ status }: { status: TaskStatus }) {
   const config: Record<TaskStatus, { label: string; className: string }> = {
@@ -26,11 +26,12 @@ function TaskStatusBadge({ status }: { status: TaskStatus }) {
   )
 }
 
-function ProjectStatusBadge({ status }: { status: 'green' | 'yellow' | 'red' }) {
+function ProjectStatusBadge({ status }: { status: 'green' | 'yellow' | 'red' | 'blue' }) {
   const config = {
     green: { label: 'On Track', className: 'bg-green-500/15 text-green-400 border-green-500/30' },
     yellow: { label: 'In Progress', className: 'bg-yellow-500/15 text-yellow-400 border-yellow-500/30' },
     red: { label: 'Needs Attention', className: 'bg-red-500/15 text-red-400 border-red-500/30' },
+    blue: { label: 'Planning', className: 'bg-blue-500/15 text-blue-400 border-blue-500/30' },
   }
   const { label, className } = config[status]
   return (
@@ -128,6 +129,58 @@ export function ProjectDetail({ slug }: { slug: string }) {
         <ExternalLink size={14} />
         {project.liveUrl.replace('https://', '')}
       </a>
+
+      {/* Key metadata */}
+      {(project.startDate || project.keyContact) && (
+        <div className="flex flex-wrap gap-4 text-sm">
+          {project.startDate && (
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <Calendar size={14} className="text-blue-400" />
+              <span>Starts <span className="text-foreground font-medium">{new Date(project.startDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span></span>
+            </div>
+          )}
+          {project.keyContact && (
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <User size={14} className="text-blue-400" />
+              <span>Key Contact: <span className="text-foreground font-medium">{project.keyContact}</span></span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Milestones */}
+      {project.milestones && project.milestones.length > 0 && (
+        <div>
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+            Milestones
+          </h3>
+          <Card className="bg-card border-border">
+            <CardContent className="p-0">
+              {project.milestones.map((milestone, i) => (
+                <div
+                  key={milestone.id}
+                  className={`flex items-center gap-3 px-4 py-3 ${i < project.milestones!.length - 1 ? 'border-b border-border' : ''}`}
+                >
+                  {milestone.done ? (
+                    <CheckCircle2 size={15} className="text-primary flex-shrink-0" />
+                  ) : (
+                    <Circle size={15} className="text-muted-foreground flex-shrink-0" />
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <p className={`text-sm ${milestone.done ? 'line-through text-muted-foreground' : 'text-foreground'}`}>
+                      {milestone.label}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground flex-shrink-0">
+                    <Calendar size={11} />
+                    {new Date(milestone.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* Task stats */}
       <div className="flex gap-4 text-sm">
