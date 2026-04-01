@@ -8,15 +8,32 @@ import {
   FolderKanban,
   CheckSquare,
   Lightbulb,
-  Timer,
+  Users,
+  Key,
+  Globe,
 } from 'lucide-react'
 
-const NAV_ITEMS = [
+// Bottom nav (mobile) — top 5 most-used
+const MOBILE_NAV = [
+  { href: '/', label: 'Home', icon: LayoutDashboard },
+  { href: '/projects', label: 'Projects', icon: FolderKanban },
+  { href: '/tasks', label: 'Tasks', icon: CheckSquare },
+  { href: '/ideas', label: 'Ideas', icon: Lightbulb },
+  { href: '/contacts', label: 'Contacts', icon: Users },
+]
+
+// Full sidebar nav
+const SIDEBAR_NAV = [
   { href: '/', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/projects', label: 'Projects', icon: FolderKanban },
   { href: '/tasks', label: 'Tasks', icon: CheckSquare },
   { href: '/ideas', label: 'Ideas', icon: Lightbulb },
-  { href: '/sessions', label: 'Sessions', icon: Timer },
+]
+
+const SIDEBAR_REFERENCE = [
+  { href: '/contacts', label: 'Contacts', icon: Users },
+  { href: '/domains', label: 'Domains', icon: Globe },
+  { href: '/credentials', label: 'Credentials', icon: Key },
 ]
 
 function NavLink({
@@ -100,15 +117,31 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
 
-        {/* Nav */}
-        <nav className="flex-1 px-2 py-4 space-y-0.5">
-          {NAV_ITEMS.map((item) => (
+        {/* Main nav */}
+        <nav className="flex-1 px-2 py-4 space-y-0.5 overflow-y-auto">
+          {SIDEBAR_NAV.map((item) => (
             <NavLink
               key={item.href}
               href={item.href}
               label={item.label}
               icon={item.icon}
               badge={item.href === '/ideas' ? inboxCount : undefined}
+              active={isActive(item.href)}
+            />
+          ))}
+
+          {/* Reference section */}
+          <div className="pt-4 pb-1 px-3">
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground/60">
+              Reference
+            </span>
+          </div>
+          {SIDEBAR_REFERENCE.map((item) => (
+            <NavLink
+              key={item.href}
+              href={item.href}
+              label={item.label}
+              icon={item.icon}
               active={isActive(item.href)}
             />
           ))}
@@ -127,7 +160,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       {/* Mobile bottom nav */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 flex border-t border-border bg-card">
-        {NAV_ITEMS.map((item) => (
+        {MOBILE_NAV.map((item) => (
           <NavLink
             key={item.href}
             href={item.href}

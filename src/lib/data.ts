@@ -40,7 +40,7 @@ export const PROJECTS: Project[] = [
     name: 'Known',
     emoji: '⛳',
     status: 'green',
-    description: 'Member recognition app',
+    description: 'Member recognition app at known.golf',
     liveUrl: 'https://known.golf/interlachen',
   },
   {
@@ -68,6 +68,22 @@ export const PROJECTS: Project[] = [
     liveUrl: 'https://rypgolf.com/red',
   },
   {
+    slug: 'certification-dashboard',
+    name: 'Certification Dashboard',
+    emoji: '🎓',
+    status: 'green',
+    description: 'RYP instructor certification platform',
+    liveUrl: 'https://ryp-certification.vercel.app',
+  },
+  {
+    slug: 'command-center',
+    name: 'Command Center',
+    emoji: '🖥️',
+    status: 'green',
+    description: 'This dashboard — hub.rypgolf.com',
+    liveUrl: 'https://hub.rypgolf.com',
+  },
+  {
     slug: 'the-golf-textbook',
     name: 'The Golf Textbook',
     emoji: '📚',
@@ -82,14 +98,6 @@ export const PROJECTS: Project[] = [
     status: 'yellow',
     description: 'Youth golf nonprofit',
     liveUrl: 'https://rypfoundation.org',
-  },
-  {
-    slug: 'rypgolf-com',
-    name: 'RypGolf.com',
-    emoji: '🌐',
-    status: 'red',
-    description: 'Main website rebuild',
-    liveUrl: 'https://rypgolf.com',
   },
 ]
 
