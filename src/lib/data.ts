@@ -83,7 +83,15 @@ export const PROJECTS: Project[] = [
     emoji: '🎓',
     status: 'green',
     description: 'RYP instructor certification platform',
-    liveUrl: 'https://ryp-certification.vercel.app',
+    liveUrl: 'https://cert.rypgolf.com',
+  },
+  {
+    slug: 'icc-junior-league',
+    name: 'ICC Junior League Apply',
+    emoji: '⛳',
+    status: 'green',
+    description: 'Staff application portal for Interlachen Junior League Summer 2026',
+    liveUrl: 'https://icc-junior-league-apply.vercel.app',
   },
   {
     slug: 'command-center',
